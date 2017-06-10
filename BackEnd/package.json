@@ -1,0 +1,15 @@
+{
+  "name": "grow_eval",
+  "version": "1.0.0",
+  "description": "back-end evaluation for grow",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Khayyam Jones",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3",
+    "swapi-node": "^0.4.1"
+  }
+}
