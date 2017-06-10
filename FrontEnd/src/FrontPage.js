@@ -8,10 +8,15 @@ class FrontPage extends Component {
       theState: '',
       foundRep: false,
       representatives: [],
-      rep: []
+      rep: [],
+      entryError: false
     }
   }
   findRep () {
+    if (this.state.theState.length !== 2) {
+      this.setState({ entryError: true })
+      return null
+    }
     Axios.get(`http://localhost:3000/representatives/${this.state.theState}`)
     .then(response => {
       this.setState({ representatives: response.data.results })
@@ -20,6 +25,10 @@ class FrontPage extends Component {
     )
   }
   findSenator () {
+    if (this.state.theState.length !== 2) {
+      this.setState({ entryError: true })
+      return null
+    }
     Axios.get(`http://localhost:3000/senators/${this.state.theState}`)
     .then(response => {
       this.setState({ representatives: response.data.results })
@@ -41,6 +50,7 @@ class FrontPage extends Component {
             value={this.state.theState}
             onChange={(text) => this.setState({ theState: text.target.value })} />
           {this.state.theState.length > 2 ? <p className='state-input-error'>2 letter abreviation</p> : null}
+          {this.state.entryError ? <p className='state-input-error'>Enter 2 letter abreviation</p> : null}
         </div>
         <div className='button-lines'>
           <span
@@ -77,7 +87,8 @@ class FrontPage extends Component {
             foundRep: false,
             theState: '',
             representatives: [],
-            rep: []
+            rep: [],
+            entryError: false
           })}>Reset</div>
       </div>
     )
@@ -103,7 +114,8 @@ class FrontPage extends Component {
             foundRep: false,
             theState: '',
             representatives: [],
-            rep: []
+            rep: [],
+            entryError: false
           })}>Reset</div>
       </div>
     )
