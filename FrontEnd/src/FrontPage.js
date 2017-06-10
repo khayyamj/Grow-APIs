@@ -19,22 +19,36 @@ class FrontPage extends Component {
     }
     Axios.get(`http://localhost:3000/representatives/${this.state.theState}`)
     .then(response => {
+      if (response.data.results === undefined) this.setState({ entryError: true })
       this.setState({ representatives: response.data.results })
-    }).then(resp =>
-      this.setState({ foundRep: true })
-    )
+      return response
+    }).then(resp => {
+      console.log('resp', resp)
+      if (!resp.data.success) {
+        return null
+      } else {
+        this.setState({ foundRep: true })
+      }
+    })
   }
   findSenator () {
-    if (this.state.theState.length !== 2) {
+    if (this.state.theState !== 2) {
       this.setState({ entryError: true })
-      return null
     }
     Axios.get(`http://localhost:3000/senators/${this.state.theState}`)
     .then(response => {
+      if (response.data.results === undefined) {
+        this.setState({ entryError: true })
+      }
       this.setState({ representatives: response.data.results })
-    }).then(resp =>
-      this.setState({ foundRep: true })
-    )
+      return response
+    }).then(resp => {
+      if (!resp.data.success) {
+        return null
+      } else {
+        this.setState({ foundRep: true })
+      }
+    })
   }
   displayFrontPage () {
     return (
@@ -49,8 +63,8 @@ class FrontPage extends Component {
             size='2'
             value={this.state.theState}
             onChange={(text) => this.setState({ theState: text.target.value })} />
-          {this.state.theState.length > 2 ? <p className='state-input-error'>2 letter abreviation</p> : null}
-          {this.state.entryError ? <p className='state-input-error'>Enter 2 letter abreviation</p> : null}
+          {this.state.theState.length > 2 ? <p className='state-input-error'>Only 2 letter abreviation please</p> : null}
+          {this.state.entryError ? <p className='state-input-error'>Enter correct 2 letter abreviation please</p> : null}
         </div>
         <div className='button-lines'>
           <span
